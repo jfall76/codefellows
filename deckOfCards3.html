@@ -1,0 +1,138 @@
+<script>
+//
+
+// Simple Game where each player throws down the top card on their deck after it's been delt. Who ever has the 
+// higher ranked card value gets a point. If it's a tie, no one gets a point. Whoever has the most points at the
+// end of the game, wins.
+//
+//
+var player_card_1;
+var player_card_2;
+
+function Deck() {
+	this.cards = [];
+	this.count = function() {
+		this.cards.length;
+	}
+	this.init = function() {
+		for (s = 1; s <= 4; s++) {
+			for (r = 1; r <= 13; r++) {
+			this.cards.push(new Card(r, s))
+			}	
+		}
+	}
+	this.deal = function(player1, player2) {
+		var random_index;
+		var removed_card;
+		while (this.cards.length > 0) {
+		//give player 1 half the deck
+		random_index = Math.floor(Math.random() * this.cards.length);
+		removed_card = this.cards.splice(random_index, 1)[0];
+		player1.addCard(removed_card);
+		//give player 2 the other half
+		random_index = Math.floor(Math.random() * this.cards.length);
+		removed_card = this.cards.splice(random_index, 1)[0];
+		player2.addCard(removed_card);
+		}
+	}
+}
+function Card(rank, suit) {
+	this.rank = rank;
+	this.suit = suit;
+	this.namesuit;
+	this.show = function() {
+		console.log(this.rank + " of " + this.suit);
+	}
+	this.showCard = function() {
+		if (this.suit == 1) {
+			this.namesuit = "Clubs";
+		} else if (this.suit == 2) {
+			this.namesuit = "Spades";
+		} else if (this.suit == 3) {
+			this.namesuit = "Diamonds";
+		} else if (this.suit == 4) {
+			this.namesuit = "Hearts";
+		}
+		if (this.rank == 11) {
+			this.namerank = "Jack";
+		} else if (this.rank == 12) {
+			this.namerank = "Queen";
+		} else if (this.rank == 13) {
+			this.namerank = "King";
+		} else if (this.rank == 1) {
+			this.namerank = "Ace";
+		} else if (this.rank == 2) {
+			this.namerank = "Two";
+		} else if (this.rank == 3) {
+			this.namerank = "Three";
+		} else if (this.rank == 4) {
+			this.namerank = "Four";
+		} else if (this.rank == 5) {
+			this.namerank = "Five";
+		} else if (this.rank == 6) {
+			this.namerank = "Six";
+		} else if (this.rank == 7) {
+			this.namerank = "Seven";
+		} else if (this.rank == 8) {
+			this.namerank = "Eight";
+		} else if (this.rank == 9) {
+			this.namerank = "Nine";
+		} else if (this.rank == 10) {
+			this.namerank = "Ten"
+		}
+		console.log(this.namerank + " of " + this.namesuit);
+	}
+}
+
+function Player() {
+	this.hand = [];
+	this.score = 0;
+	this.addCard = function(aCard) {
+		this.hand.push(aCard)
+	}
+	this.topOfHand = function() {
+
+		return this.hand.shift();
+	}
+	this.show = function() {
+	console.log(this.hand.rank + " of " + this.hand.suit);
+	}
+	this.addScore = function() {
+		this.score++;
+	}
+}
+
+
+d = new Deck();
+d.init();
+//create 2 players and deal them each 26 cards
+p1 = new Player; 
+p2 = new Player;
+d.deal(p1,p2);
+
+while (p1.hand.length > 0 && p2.hand.length > 0) {
+	player_card_1 = p1.topOfHand();
+	player_card_2 = p2.topOfHand();
+	console.log("Player 1 Hand: ");
+	player_card_1.showCard();
+	console.log("Player 2 Hand: ");
+	player_card_2.showCard();
+	if (player_card_1.rank > player_card_2.rank) {
+		p1.addScore();
+	} else if (player_card_2.rank > player_card_1.rank) {
+		p2.addScore();
+	}
+}
+
+if (p1.score > p2.score)
+	alert("Player 1 wins!")
+else if (p2.score > p1.score) {
+	alert("Player 2 wins!")
+} else {
+	alert("Looks like it might be a tie!")
+}
+console.log("Player 1's score: " + p1.score);
+console.log("Player 2's score: " + p2.score);
+
+
+</script>
